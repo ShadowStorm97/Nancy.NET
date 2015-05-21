@@ -14,47 +14,74 @@
     </style>
    
     <script type="text/javascript">
+        function LoadPage(){
+            window.location = 'http://localhost:3579/blacklist';
+        }
         $(function () {
-
-            var data = $("#UserName").val();
-            $("#Btn_Click").click(function () {
-                if (data != null && data != undefined) {
+        	$("#Btn_Click").click(function () {
+        	    var data = $("#UserName").val();
+        	    if (data != null && data != undefined) {
                     $.ajax({
-                        type: 'post',
+                        type: 'GET',
                         url: 'http://localhost:3579/AddBlackList',
-                        data: data,
-                        success: function () {
-                            alert("OK!");
+                        data: { 'data': data },
+                        success: function (e) {
+                           if (e=='True') {
+                               //添加到数据库成功 刷新页面
+                               alert("添加成功！");
+                               LoadPage();
+                           }else
+                           {
+                               //添加失败
+                               alert("添加失败,请联系数据库管理员！");
+                           }
                         }
                     });
                 }
-            });
+        	});
+        	
         });
+        function Remove (param) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:3579/RemoveUserFromBlackList?id='+param,
+                success: function (e) {
+                    if (e == 'True') {
+                        alert("成功删除！");
+                        //添加到数据库成功 刷新页面
+                        LoadPage();
+                    } else {
+                        //添加失败
+                        alert("删除失败，请联系数据库管理员！");
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
     
-        <a> 添加黑名单</a><br>
+        <a> 添加到黑名单</a><br>
         <br />
         <br />
-    <input type="text" name="UserName" id="UserName" value="用户名" /> <input type="button" name="Btn_Click" id="Btn_Click" value="添加" /><br />
+    <input type="text" name="UserName" id="UserName" value=" Mt4id" /> <input type="button" name="Btn_Click" id="Btn_Click" value="添加" /><br />
         <br />
         <br />
         <br />
         <a>黑名单列表</a>
         <br />
         <br />
-        <table style="margin:0 auto">
+        <table style="margin:0 auto" id="Tab1">
             <tr>
-                <th>用户名</th> <th>余额</th> <th>操作</th>
+                <th style="margin:auto">用户名</th> <th style="margin:auto">余额</th> <th style="margin:auto">操作</th>
             </tr>
             
                   @for (int i = 0; i < @Model.Count; i++)
                   {
                       <tr>
-                          <td>Model[i].mt4_id</td>
-                          <td>Model[i].username</td>
-                          <td>Model[i].balance</td>
+                          <td style="margin:auto">@Model[i].username</td>
+                          <td style="margin:auto">@Model[i].balance</td>
+                          <td style="margin:auto"><a href="#" onclick="Remove(@Model[i].mt4_id)">移除</a></td> 
                       </tr> 
                   }
            

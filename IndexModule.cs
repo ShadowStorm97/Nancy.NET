@@ -83,12 +83,20 @@
                         }
                         if (d != null)
                         {
+                            //添加到黑名单库中
                             var insql = "insert into tiger.blacklist(username, usercode, mt4_id, state,date) values(@username, @usercode, @mt4_id, @state,@date)";
                             MySqlParameter[] param = new MySqlParameter[] { new MySqlParameter("@username", d.username), new MySqlParameter("@usercode", d.usercode), new MySqlParameter("@mt4_id", data), new MySqlParameter("@state", 1), new MySqlParameter("@date", d.date) };
                             int count = DBUtility.ExecuteNonQuery(null, CommandType.Text, insql, param);
                             if (count > 0)
                             {
                                 result = true;
+                            }
+                            //立即从高手榜中移除此用户
+                            var delesql = "delete from tiger.master where mt4_id=@mt4_id";
+                            int delecount = DBUtility.ExecuteNonQuery(null, CommandType.Text, delesql, new MySqlParameter("@mt4_id", data));
+                            if (delecount<=0)
+                            {
+                                result = false;
                             }
                         }
                     }

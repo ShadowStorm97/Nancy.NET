@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>高手推荐黑名单</title>
+    <title>高手推荐管理</title>
     <style type="text/css">
         body {
             text-align: center;
@@ -12,16 +12,16 @@
     <script src="~/scripts/jquery-1.6.2.js"></script>
     <script type="text/javascript">
     function LoadPage() {
-        window.location = 'http://119.81.232.171:3579/masterlist';
+        window.location = 'http://108.168.193.178:3579/masterlist';
     }
     $(function () {
         $("#Btn_Click").click(function () {
             var data = $("#UserName").val();
             var type = $("#selected").val();
-            if (data != null && data != undefined && type!=null && type!=undefined && type!=-1 ) {
+            if (data != null && data != undefined && type != null && type != undefined && type != -1) {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://119.81.232.171:3579/AddMasterList',
+                    url: 'http://108.168.193.178:3579/AddMasterList',
                     data: { 'data': data ,'type':type},
                     success: function (e) {
                         if (e == 'True') {
@@ -41,7 +41,7 @@
     function Remove(param) {
         $.ajax({
             type: 'GET',
-            url: 'http://119.81.232.171:3579/RemoveUserFromMasterList?id=' + param,
+            url: 'http://108.168.193.178:3579/RemoveUserFromMasterList?id=' + param,
             success: function (e) {
                 if (e == 'True') {
                     alert("成功删除！");
@@ -59,22 +59,22 @@
 </head>
 
 <body>
-    <a> 添加到黑名单</a><br>
+    <a> 高手推荐管理</a><br>
     <br />
     <br />
-    <input type="text" name="UserName" id="UserName" value="点击添入mt4id..." onfocus="if (value == '点击添入mt4id...') { value = '' }" onblur="    if (value == '') { value = '点击添入mt4id...' }" />
+    <input type="text" name="UserName" id="UserName" value="点击添入mt4id..." onfocus="if(value == '点击添入mt4id...') { value = '' }" onblur="if (value == '') { value = '点击添入mt4id...'}" />
     <select id="selected">
         <option value="-1">选择推荐类型</option>
-        <option value="0">短线</option>
-        <option value="1">长期</option>
-        <option value="2">复制</option>
-        <option value="3">做空</option>
+        <option value="0">短期投资</option>
+        <option value="1">长期投资</option>
+        <option value="2">最多复制</option>
+        <option value="3">最多盈利</option>
     </select> 
     <input type="button" name="Btn_Click" id="Btn_Click" value="添加" /><br />
     <br />
     <br />
     <br />
-    <a>黑名单列表</a>
+    <a>高手推荐列表</a>
     <br />
     <br />
     <table style="margin:0 auto" id="Tab1">
@@ -89,7 +89,7 @@
             <tr>
                 <td style="margin:auto">@Model[i].username</td>
                 <td style="margin:auto">@Model[i].type</td>
-                <td style="margin:auto"><a href="#" onclick="Remove(@Model[i].mt4_id)">移除</a></td>
+                <td style="margin:auto"><a href="#" onclick="javascript:if(confirm('确认删除吗?'))Remove(@Model[i].mt4_id)">移除</a></td>
             </tr>
         }
 

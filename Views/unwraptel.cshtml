@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>解绑手机号码</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+    </style>
+    <script src="~/scripts/jquery-1.6.2.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $("#Btn_Click").click(function () {
+            var data = $("#phone").val();
+            if (data != null && data !=undefined) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://108.168.193.178:3579/unwraptelnum',
+                    data: { 'phone': data},
+                    success: function (e) {
+                        if (e == 'True') {
+                            alert("解绑成功！");
+                        } else {
+                            //添加失败
+                            alert("解绑失败,失败原因："+e);
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+    </script>
+
+</head>
+
+<body>
+    <a> 解绑手机号码</a><br>
+    <br />
+    <br />
+    <input type="text" name="phone" id="phone" value="点击添入PhoneNumber..." onfocus="if (value == '点击添入PhoneNumber...') { value = '' }" onblur="    if (value == '') { value = '点击添入PhoneNumber...' }" />
+    <input type="button" name="Btn_Click" id="Btn_Click" value="解绑" /><br />
+    
+    <br />
+    <br />
+    <br />
+
+
+</body>
+</html>

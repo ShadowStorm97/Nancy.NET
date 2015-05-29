@@ -14,8 +14,8 @@
     </style>
    
     <script type="text/javascript">
-        function LoadPage(){
-            window.location = 'http://119.81.232.171:3579/blacklist';
+    function LoadPage(){
+        window.location = 'http://108.168.193.178:3579/blacklist';
         }
         $(function () {
         	$("#Btn_Click").click(function () {
@@ -23,7 +23,7 @@
         	    if (data != null && data != undefined) {
                     $.ajax({
                         type: 'GET',
-                        url: 'http://119.81.232.171:3579/AddBlackList',
+                        url: 'http://108.168.193.178:3579/AddBlackList',
                         data: { 'data': data },
                         success: function (e) {
                            if (e=='True') {
@@ -33,18 +33,18 @@
                            }else
                            {
                                //添加失败
-                               alert("添加失败,请联系数据库管理员！");
+                               alert("添加失败,请联系数据库管理员！失败参数："+e);
                            }
                         }
                     });
                 }
         	});
-        	
+
         });
         function Remove (param) {
             $.ajax({
                 type: 'GET',
-                url: 'http://119.81.232.171:3579/RemoveUserFromBlackList?id='+param,
+                url: 'http://108.168.193.178:3579/RemoveUserFromBlackList?id=' + param,
                 success: function (e) {
                     if (e == 'True') {
                         alert("成功删除！");
@@ -64,7 +64,7 @@
         <a> 添加到黑名单</a><br>
         <br />
         <br />
-    <input type="text" name="UserName" id="UserName" value=" Mt4id" /> <input type="button" name="Btn_Click" id="Btn_Click" value="添加" /><br />
+    <input type="text" name="UserName" id="UserName" value="点击添入mt4id..." onfocus="if (value == '点击添入mt4id...') { value = '' }" onblur="if (value == '' ) { value='点击添入mt4id...' }" /> <input type="button" name="Btn_Click" id="Btn_Click" value="添加" /><br />
         <br />
         <br />
         <br />
@@ -81,7 +81,7 @@
                       <tr>
                           <td style="margin:auto">@Model[i].username</td>
                           <td style="margin:auto">@Model[i].balance</td>
-                          <td style="margin:auto"><a href="#" onclick="Remove(@Model[i].mt4_id)">移除</a></td> 
+                          <td style="margin:auto"><a href="#" onclick="javascript:if(confirm('确认删除吗?'))Remove(@Model[i].mt4_id)">移除</a></td> 
                       </tr> 
                   }
            

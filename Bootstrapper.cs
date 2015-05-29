@@ -16,5 +16,18 @@
                 StaticContentConventionBuilder.AddDirectory("Scripts", @"Scripts")
             );
         }
+
+          protected override IRootPathProvider RootPathProvider
+          {
+               get { return new CustomRootPathProvider(); }
+           }
+    }
+
+    public class CustomRootPathProvider : IRootPathProvider
+    {
+        public string GetRootPath()
+        {
+            return System.AppDomain.CurrentDomain.BaseDirectory;
+        }
     }
 }
